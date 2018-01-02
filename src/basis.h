@@ -23,10 +23,6 @@ class Basis{
   arma::vec rPart(arma::vec,int,int);
   arma::vec zPart(arma::vec,int);
   arma::mat basisFunc(int,int,int,arma::vec,arma::vec);
-  arma::mat solutionref(arma::vec,arma::vec,int,int);
-  arma::mat solution1(arma::vec,arma::vec,int,int);
-  arma::mat solution2(arma::vec,arma::vec,int,int);
-
 };
 
 #endif

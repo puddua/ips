@@ -2,7 +2,7 @@ CC = g++
 CFLAGS = -W -Wextra -Wall -std=c++11 -g
 LIB = -larmadillo -lm 
 TARGET = main
-OBJS =  poly.o basis.o main.o
+OBJS =  poly.o basis.o sol.o main.o
 CCPLOT = gnuplot
 PLOT = plot_res.gnu 
 

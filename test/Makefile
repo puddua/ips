@@ -4,7 +4,7 @@ TESTGEN = cxxtestgen
 TESTS = test.h
 FLAGTEST = --error-printer
 LIB = -O1 -larmadillo -lm
-OBJ = ../src/poly.o ../src/basis.o test.o
+OBJ = ../src/poly.o ../src/basis.o ../src/sol.o test.o
 
 
 test: $(OBJ) 

@@ -7,6 +7,7 @@
 //#include "../src/sol.h"
 #include "../src/poly.h"
 #include "../src/basis.h"
+#include "../src/sol.h"
 #include <iostream>
 #include <cmath> 
 class MyTestSuite1 : public CxxTest::TestSuite{
@@ -118,7 +119,7 @@ public:
     arma::colvec z=arma::linspace<arma::colvec>(-1,1,s_r);
 
     Basis basis(1.935801664793151,      2.829683956491218,     14,     1.3);
-    arma::mat res=basis.solution1(z,r,s_z,s_r);
+    arma::mat res=solution3(z,r,s_z,s_r,basis);
     double the=3.6742;
     TS_ASSERT_DELTA(arma::accu(res)-the,0.0,1e-4);
     

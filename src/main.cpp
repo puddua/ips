@@ -7,6 +7,7 @@
 #include <armadillo>
 #include "main.h"
 #include "basis.h"
+#include "sol.h"
 //#include "hermite.h" 
 using namespace std;
 
@@ -22,8 +23,6 @@ void write_result(arma::mat res,arma::colvec z,arma::colvec r){
   ofstream file;
   file.open("result.dat",ios::out);
   arma::mat plot=res;
-  //  plot.insert_cols(0,z);
-  //plot.insert_cols(1,r);
   file<<plot;
   file.close();
 }
@@ -85,7 +84,7 @@ int main(int argc,char **argv){
   arma::colvec z=arma::linspace<arma::colvec>(-1,1,s_r);
 
   Basis basis(1.935801664793151,      2.829683956491218,     14,     1.3);
-  arma::mat res=basis.solution1(z,r,s_z,s_r);
+  arma::mat res=solution3(z,r,s_z,s_r,basis);
   write_result(res,z,r);
   
   return 0;
