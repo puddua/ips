@@ -13,13 +13,11 @@ using namespace std;
 
 
 /**
-   A modifier domi
- *Function to write value of \f$ \Psi \f$ for each degree n in a new file "result.dat"
- *@param sol Solution to write in the file
- *@param z Vector z which discretises the solution
- */
+ *Function to write the result of the density in a new file "result.dat"
+ *@param res Solution to write in the file 
+*/
 
-void write_result(arma::mat res,arma::colvec z,arma::colvec r){
+void write_result(arma::mat res){
   ofstream file;
   file.open("result.dat",ios::out);
   arma::mat plot=res;
@@ -71,13 +69,7 @@ void write_laguerre(Poly pol,arma::colvec z,int s){
  *  \f$ \hat{p}_{(z)} \equiv -i\hbar\frac{\partial}{\partial z} \f$
  */
 int main(int argc,char **argv){
-  
-  /*  if(argc!=3){
-    cerr<<"Execution requires 2 arguments: look the Readme"<<endl;
-    exit(1);
-    }*/
-
-  
+    
   int s_z=100;
   int s_r=100;
   arma::colvec r=arma::linspace<arma::colvec>(-1,1,s_z);
@@ -85,7 +77,7 @@ int main(int argc,char **argv){
 
   Basis basis(1.935801664793151,      2.829683956491218,     14,     1.3);
   arma::mat res=solution3(z,r,s_z,s_r,basis);
-  write_result(res,z,r);
+  write_result(res);
   
   return 0;
 }
