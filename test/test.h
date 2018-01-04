@@ -4,7 +4,6 @@
 
 #include <cxxtest/TestSuite.h>
 #include <armadillo>
-//#include "../src/sol.h"
 #include "../src/poly.h"
 #include "../src/basis.h"
 #include "../src/sol.h"
@@ -15,8 +14,7 @@ class MyTestSuite1 : public CxxTest::TestSuite{
 public:
  
   /**
-   * Test to check if the algorithm to compute the final result of \f$ \Psi \f$ is always correct.
-   * It uses a reference value which is the trace of \f$ \Psi \f$ in size=(10,10) and z between [-1,1] discretized in 100 points
+   *  Mandatory test to Hermite and Laguerre polynomials
    **/
   void testPoly(void){
     // Mandatory test #00 - Hermite and Laguerre polynomials
@@ -44,6 +42,10 @@ public:
     
     }
 
+  /**
+   *  Mandatory test to the Basis truncation
+   **/
+  
   void testTruncation(void){
     Basis basis(1.935801664793151,      2.829683956491218,     14,     1.3);
     TS_ASSERT_EQUALS(basis.mMax, 14);
@@ -65,6 +67,10 @@ public:
 			 { 1,  0,  0,  0, 0, 0, 0}};
     TS_ASSERT(!arma::any(arma::any(basis.n_zMax - n_zMax)));
   }
+
+  /**
+   *  Mandatory test to the compute of the rPart
+   **/
   
   void testrPart(void){
     Basis basis(1.935801664793151,      2.829683956491218,     14,     1.3);
@@ -89,6 +95,11 @@ public:
     TS_ASSERT_DELTA(arma::norm(basis.rPart(r, 8, 2) - res82), 0.0, 1e-15);
   }
 
+  /**                                
+   *  Mandatory test to the compute of the rPart    
+   **/
+  
+  
   void testzTest(void){
     Basis basis(1.935801664793151,      2.829683956491218,     14,     1.3);
     arma::vec z = {-10.1, -8.4, -1.0, 0.0, 0.1, 4.3, 9.2, 13.7};
@@ -112,6 +123,11 @@ public:
     TS_ASSERT_DELTA(arma::norm(basis.zPart(z, 15) - res15), 0.0, 1e-15);
   }
 
+  /**
+   * Test to check if the algorithm to compute the final result of \f$ rho \f$ is always correct.
+   * It uses a reference value which is the sum of all element of the matrix in the shape 5*5 with z and r between [-1,1], and basis of previous test
+   **/
+  
   void testResult(void){
     int s_z=5;
     int s_r=5;
@@ -119,7 +135,7 @@ public:
     arma::colvec z=arma::linspace<arma::colvec>(-1,1,s_r);
 
     Basis basis(1.935801664793151,      2.829683956491218,     14,     1.3);
-    arma::mat res=solution3(z,r,s_z,s_r,basis);
+    arma::mat res=solutionref(z,r,s_z,s_r,basis);
     double the=3.6742;
     TS_ASSERT_DELTA(arma::accu(res)-the,0.0,1e-4);
     
