@@ -29,8 +29,8 @@ The makefile at the root have a target doc, so you can type "make doc" to genera
 
 # Run <a name="Run"></a>
 In the folder src, you can execute the executable file "main" with 2 parameters:<br/>
-   1) s_z=size of the vector Z
-   2) s_r=size of the vector R
+   1) s_z=size of the vector Z <br/>
+   2) s_r=size of the vector R <br/>
 It will generate 1 new file "result.dat" which contains value of the result, in a format to plot with gnuplot
 
 
