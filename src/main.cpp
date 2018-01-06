@@ -59,8 +59,7 @@ void write_laguerre(Poly pol,arma::colvec z,int s){
 
 
 /**
- A modifier domi: faire un mini résumé sur le problème qu'on résout dans le projet
- * The main objective of this application is to solve the quantum harmonic oscillator in 1 dimension
+ * The main objective of this application is to compute the local density of a nuclear system in 2 or 3 dimensions
  *For this, we solve the Schrödinger equation given by:
  *\f$ \hat{H}_{(z)} \Psi_n(z) =E_n \Psi_n (z) \f$
  * where the 1D-Hamiltonian and 1D-Momentum operator are defined as:
@@ -69,9 +68,14 @@ void write_laguerre(Poly pol,arma::colvec z,int s){
  *  \f$ \hat{p}_{(z)} \equiv -i\hbar\frac{\partial}{\partial z} \f$
  */
 int main(int argc,char **argv){
-    
-  int s_z=100;
-  int s_r=100;
+
+  if(argc!=3){
+    cerr<<"Execution requires 2 arguments: look the Readme"<<endl;
+    exit(1);
+  }
+  
+  int s_r=atoi(argv[1]);
+  int s_z=atoi(argv[2]);
   arma::colvec r=arma::linspace<arma::colvec>(-1,1,s_z);
   arma::colvec z=arma::linspace<arma::colvec>(-1,1,s_r);
 

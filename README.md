@@ -28,14 +28,14 @@ The makefile at the root have a target doc, so you can type "make doc" to genera
 
 
 # Run <a name="Run"></a>
-In the folder src, you can execute the executable file "main" without parameters.<br/>
-The default size of the problem is 100*100, that you can modify in the main.cpp
+In the folder src, you can execute the executable file "main" with 2 parameters:<br/>
+   1) s_z=size of the vector Z
+   2) s_r=size of the vector R
 It will generate 1 new file "result.dat" which contains value of the result, in a format to plot with gnuplot
 
 
 # Plot <a name="Plot"></a>
-In the folders src, you can type "make plot" to generate "plot_res.png" which represents solution associated to your last run. <br/>
-If you change the shape of the problem, you have to modify plot_res.png to match with new shapes.
+In the folders src, you can type "make plot" to generate "reslut.png" which represents solution associated to your last run. <br/>
 
 # Test <a name="Test"></a>
 The executable to run test is in the folder test, and you just need to type "./test" to launch existing tests

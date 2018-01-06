@@ -14,7 +14,7 @@
  *@param basis Basis truncation of the problem
  *@return Solution of the problem
  */
-arma::mat solutionref(arma::vec zVals,arma::vec rVals,int nbR,int nbZ,Basis basis){
+arma::mat solutionref(arma::vec zVals,arma::vec rVals,int nbZ,int nbR,Basis basis){
   arma::mat rho;
   rho.load("rho.arma", arma::arma_ascii);
   int i=0;
@@ -60,7 +60,7 @@ arma::mat solutionref(arma::vec zVals,arma::vec rVals,int nbR,int nbZ,Basis basi
  */
 
 
-arma::mat solution1(arma::vec zVals,arma::vec rVals,int nbR,int nbZ,Basis basis){
+arma::mat solution1(arma::vec zVals,arma::vec rVals,int nbZ,int nbR,Basis basis){
   arma::mat rho;
   rho.load("rho.arma", arma::arma_ascii);
   int i=0;
@@ -106,7 +106,7 @@ arma::mat solution1(arma::vec zVals,arma::vec rVals,int nbR,int nbZ,Basis basis)
  */
 
 
-arma::mat solution2(arma::vec zVals,arma::vec rVals,int nbR,int nbZ,Basis basis){
+arma::mat solution2(arma::vec zVals,arma::vec rVals,int nbZ,int nbR,Basis basis){
   arma::mat rho;
   rho.load("rho.arma", arma::arma_ascii);
   int i=0;
@@ -153,7 +153,7 @@ arma::mat solution2(arma::vec zVals,arma::vec rVals,int nbR,int nbZ,Basis basis)
  *@return Solution of the problem
  */
 
-arma::mat solution3(arma::vec zVals,arma::vec rVals,int nbR,int nbZ,Basis basis){
+arma::mat solution3(arma::vec zVals,arma::vec rVals,int nbZ,int nbR,Basis basis){
   arma::mat rho;
   rho.load("rho.arma", arma::arma_ascii);
   int i=0;
@@ -182,7 +182,6 @@ arma::mat solution3(arma::vec zVals,arma::vec rVals,int nbR,int nbZ,Basis basis)
 	  for (int n_zp = 0; n_zp < basis.n_zMax(m, np); n_zp++){
 	    arma::mat funcB = basis.zPart(zVals,n_zp)*tmprp;
 	    j=conv(m,np,n_zp);
-	    std::cout<<"i="<<i<<" j="<<j<<std::endl;
 	    k++;
 	    result+= funcA % funcB * rho(i,j); // mat += mat % mat * double
 	    
@@ -209,7 +208,7 @@ arma::mat solution3(arma::vec zVals,arma::vec rVals,int nbR,int nbZ,Basis basis)
  *@return Solution of the problem                                                                                                             
  */
 
-arma::mat solution4(arma::vec zVals,arma::vec rVals,int nbR,int nbZ,Basis basis){
+arma::mat solution4(arma::vec zVals,arma::vec rVals,int nbZ,int nbR,Basis basis){
   arma::mat rho;
   rho.load("rho.arma", arma::arma_ascii);
   int i=0;
