@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>IPS</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="core/fonts/mono.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/animate.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/cinescript.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/style_core.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/mermaid.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/gitgraph.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/style_ensiie.css"> 
+  </head>
+  <body>
+    <textarea id="source" readonly>
+class: titlepage
+
+.title[
+Introduction to Scientific Programming 
+]
+
+.title[
+Local density in a Nuclear System
+]
+
+<br/><br/>
+.subtitle[
+Alexis PUDDU & Domitille AILLERET
+]
+
+.footnote[
+[:book:](../toc/index.html)
+]
+
+???
+
+Some slide notes.
+
+Want some `\(\LaTeX\)` ?
+
+`$$a_{0}=\frac{1}{4}b_{1}$$`
+
+Some items:
+* first
+* second
+* third
+
+---
+layout: true
+class: animated fadeIn middle
+
+.footnote[
+IPS Presentation -A. Puddu & D. Ailleret - ENSIIE - 2017 - [:book:](../toc/index.html)
+]
+
+
+---
+
+class: toc top
+#Table of content
+
+1. Project Presentation  
+--
+
+  1. Context
+--
+
+  2. The Project Organization 
+--
+
+2. The Composition Chain 
+  * Content of the Makefile
+--
+
+3. The Generated Documentation
+--
+
+4. Code Sample 
+--
+
+5. Unit Tests  
+--
+
+
+6. The Git 
+--
+
+7. The Calculation Results    
+--
+---
+
+#  Project Presentation : Context
+
+`Objective of the project`
+
+:arrow_right: Calculate Hermite and Generalized Laguerre polynomials
+
+:arrow_right: Calculate z- and r- functions
+
+:arrow_right: Define the basis quantum number values
+
+:arrow_right: Calculate the nuclear local density with the direct algorithm
+
+:arrow_right: Calculate the nuclear local density with an opimization algorithm
+
+:arrow_right: Implement the mandatory unit tests
+
+:arrow_right: Plot the nuclear local density in the (x,z) plane
+
+:arrow_right: Plot the nuclear local density in the (x,y,z) space 
+
+
+---
+
+# Project Presentation : Polynomials 
+
+`Hermite Polynomials`
+`$$
+\begin{eqnarray*}
+H_0(\zeta)&=&1\\
+H_1(\zeta)&=&2\zeta\\
+H_{n}(\zeta)&=&2\zeta H_{n-1}(\zeta)-2(n-1)H_{n-2}(\zeta)
+\end{eqnarray*}
+$$`
+
+
+`Laguerre Polynomials`
+
+`$$
+\begin{eqnarray*}
+L^{m}_0(\eta)&=&1\\
+L^{m}_1(\eta)&=&1+m-\eta\\
+L^{m}_{n}(\eta)&=&\left(2+\frac{m-1-\eta}{n}\right)L^{m}_{n-1}(\eta)-\left(1+\frac{m-1}{n}\right)L^{m}_{n-2}(\eta)
+\end{eqnarray*}
+$$`
+
+---
+# R & Z functions
+
+`$$
+\psi_{m,n,n_z}(r_\perp, \theta, z)
+        \equiv
+    Z(z, n_z)
+    .
+    R(r_\perp, m, n)
+    .
+         e^{im\theta}
+$$`
+
+`R function`
+
+`$$
+R(r_\perp, m, n)
+         \equiv
+         \frac{1}{b_{\perp}\sqrt{\pi}}
+         \sqrt{\frac{n!}{(n+|m|)!}}
+         e^{-\frac{r_{\perp}^2}{2b_{\perp}^2}}
+         \left(\frac{r_{\perp}}{b_{\perp}}\right)^{|m|}
+         L_n^{|m|}\left(\frac{r_{\perp}^2}{b_{\perp}^2}\right).
+$$`
+
+
+`Z function `
+`$$
+Z(z, n_z)
+\equiv
+\phi_{n_z}(z)
+=
+         \frac{1}{\sqrt{b_z}}
+         \frac{1}{\sqrt{2^{n_z} \sqrt{\pi}n_z!}}
+         e^{-\frac{z^2}{2b_z^2}}H_{n_z}\left(\frac{z}{b_z}\right)
+$$`
+---
+# Basis Quantum number values 
+
+The quantum number values are the integers verifying
+`$$\begin{eqnarray}
+0 &\le m \le& m^\textrm{max}-1\\
+0 &\le n \le& \frac{1}{2}(m^\textrm{max}-m-1)\\
+0 &\le n_z \le& n_z^\textrm{max}(m+2n)-1.
+\end{eqnarray}$$`
+
+where
+
+`$$
+n_z^\textrm{max}(i) \equiv (N+2).Q^\frac{2}{3}+\frac{1}{2}-i.Q
+$$`
+
+and
+`$$
+m^\textrm{max} \equiv \textrm{sup}\left\{i:n_z^\textrm{max}(i)\ge 1\right\}.
+$$`
+
+
+
+---
+# Project Presentation : Classes
+
+.hcenter.shadow.w120.animated.fadeInUp.wait1s[
+![](images/classes.png)
+]
+
+---
+
+# Project Presentation : Files Hierarchy 
+
+.hcenter.shadow.w80.animated.fadeInUp.wait1s[
+![](images/files2.png)
+]
+
+
+
+
+
+
+---
+
+# The Compilation Chain 
+
+.hcenter.shadow.w60.animated.fadeInUp.wait1s[
+![](images/markdown.png)
+]
+
+---
+#The Compilation Chain : src Makefile
+
+<pre id="terminal">
+CC = g++
+CFLAGS = -W -Wextra -Wall -std=c++11 
+LIB = -larmadillo -lm 
+TARGET = main
+OBJS = main.o sol.o hermite.o
+CCPLOT = gnuplot
+PLOT = plot_res.gnu 
+
+
+all: $(TARGET)
+
+$(TARGET): $(OBJS)
+	$(CC) $(CFLAGS) $^ -o $@ $(LIB)
+
+%.o: %.cpp %.h
+	$(CC) $(CFLAGS) $< -c -o $@ $(LIB)
+
+clean:
+	rm -f $(OBJS)
+	rm -f $(TARGET)
+
+plot:
+	$(CCPLOT) $(PLOT)
+
+</pre>
+
+
+---
+# The Generated Documentation
+
+:arrow_right: To generate all the documentation doxygen in a folder html type "make doc"
+
+.hcenter.shadow.w120.animated.fadeInUp.wait1s[
+![](images/doc.png)
+]
+
+---
+#The Generated Documentation
+
+`Documentation for hermite.cpp`
+
+<pre id="terminal">
+  /**                                                                           
+ * @file hermite.cpp                       
+ */
+
+#include <iostream>
+#include <armadillo>
+#include "hermite.h"
+
+/**
+ * Definition test_ortho which is the size to compute the quadrature of Gauss-Hermite 
+ */
+
+#define test_ortho 10
+
+/**                                                                                                          
+ * Constructor of Hermite polynomals in a matrix                                                                                  
+ * @param n Number of row of the matrix                                                                    
+ * @param z Number of column of the matrix                                                                    
+ */
+</pre>
+
+
+---
+# Code Sample
+
+`Compute Gauss-Hermite Quadrature`
+
+<pre id="terminal">
+  
+Hermite test(test_ortho,test_ortho);
+test.eval_hermit(xi);
+for(i=0;i< test_ortho;i++){
+	    res.row(i)=(test.pol_h*(test.pol_h.row(i).t()%wi)).t();
+	    }
+	   </pre>
+---
+# Unitary Test
+
+* Constructor Test
+* Orthogonality Test
+* Psi Test 
+<pre id="terminal">
+    /**
+   * Test to check if the algorithm to compute the final result of \f$ \Psi \f$ is always correct.
+   * It uses a reference value which is the trace of \f$ \Psi \f$ in size=(10,10) and z between [-1,1] discretized in 100 points
+   **/
+  void testPsi(void){
+    double theory=-144.888;
+    TS_ASSERT_DELTA(psi_check(),theory,0.0001);
+  }
+</pre>
+
+`Running cxxtest tests (3 tests)...OK!`
+
+---
+
+
+# Git : branches
+
+.hcenter.shadow.w120.animated.fadeInUp.wait1s[
+![](images/branches.png)
+]
+
+---
+# Git : History 
+
+.hcenter.shadow.w120.animated.fadeInUp.wait1s[
+![](images/git_history_1.png)
+]
+
+---
+# Git : History 
+
+.hcenter.shadow.w120.animated.fadeInUp.wait1s[
+![](images/git_history_2.png)
+]
+
+---
+# Git : History 
+
+.hcenter.shadow.w120.animated.fadeInUp.wait1s[
+![](images/git_history_3.png)
+]
+---
+
+# Results : hermite 
+
+.hcenter.shadow.w120.animated.fadeInUp.wait1s[
+![](images/graph_hermite.png)
+]
+
+
+---
+
+# Results : solution 
+
+.hcenter.shadow.w80.animated.fadeInUp.wait1s[
+![](images/graph_sol.png)
+]
+
+
+---
+
+
+
+
+
+
+
+    </textarea>
+
+    <script src="core/javascript/remark.js"></script>
+    <script src="core/javascript/plotly.js" type="text/javascript"></script>
+    <script src="core/javascript/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML&delayStartupUntil=configured" type="text/javascript"></script>
+    <script src="core/javascript/emojify.js" type="text/javascript"></script>
+    <script src="core/javascript/mermaid.js" type="text/javascript"></script>
+    <script src="core/javascript/term.js" type="text/javascript"></script>
+    <script src="core/javascript/jquery-2.1.1.min.js" type="text/javascript"></script>
+    <script src="core/javascript/extend-jquery.js" type="text/javascript"></script>
+    <script src="core/javascript/cinescript.js" type="text/javascript"></script>
+    <script src="core/javascript/gitgraph.js" type="text/javascript"></script>
+    <script>
+
+    // === Remark.js initialization ===
+    var slideshow = remark.create({
+      highlightStyle: 'monokai',
+      countIncrementalSlides: false,
+      highlightLines: false
+    });
+
+    // === Mermaid.js initialization ===
+    mermaid.initialize({
+      startOnLoad: false,
+      cloneCssStyles: false,
+      flowchart:{
+        height: 50
+      },
+      sequenceDiagram:{
+        width: 110,
+        height: 30
+      }
+    });
+
+    function initMermaid(s) {
+      var diagrams = document.querySelectorAll('.mermaid');
+      var i;
+      for(i=0;i<diagrams.length;i++){
+        if(diagrams[i].offsetWidth>0){
+          mermaid.init(undefined, diagrams[i]);
+        }
+      }
+    }
+
+    slideshow.on('afterShowSlide', initMermaid);
+    initMermaid(slideshow.getSlides()[slideshow.getCurrentSlideIndex()]);
+
+    // === MathJax.js initialization ===
+    MathJax.Hub.Config({ tex2jax: { skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'] } }); 
+    MathJax.Hub.Queue(function() { $(MathJax.Hub.getAllJax()).map(function(index, elem) { return(elem.SourceElement()); }).parent().addClass('has-jax'); });
+    MathJax.Hub.Configured();
+
+    // === Emojify.js initialization ===
+    emojify.run();
+
+    // === Cinescript initialization ===
+    $(document).ready(init_cinescripts);
+
+    // ===== plotly00 =====
+  </script>
+  </body>
+</html>
+
