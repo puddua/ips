@@ -1,5 +1,5 @@
 IPS Project on the local density in a nuclear system <br/>
-To see more details about the problem and its solution, go to see the documentation
+To see more details about the problem and its solution, go to see classes documentation
 
 Prerequisite:<br/>
 -armadillo version>=8.200.2<br/>

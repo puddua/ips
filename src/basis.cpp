@@ -6,10 +6,27 @@
 
 #define _USE_MATH_DEFINES
 
+
+/**
+ *Necessary function to compute the quantic number m,corresponding to the following formula:
+ *\f$ n_z^\textrm{max}(i) \equiv (N+2).Q^\frac{2}{3}+\frac{1}{2}-i.Q \f$
+ *@param i
+ *@param N
+ *@param Q
+ @return 
+ */
 int nmax(int i,int N,double Q){
   return ((double)N+2.0)*std::pow(Q,2.0/3.0)+0.5-(double)i*Q;
 
 }
+
+/**
+ *Constructor of the class Basis
+ *@param br
+ *@param bz
+ *@param N
+ *@param Q
+ */
 
 Basis::Basis(double br,double bz,int N,double Q){
   int i=0;
