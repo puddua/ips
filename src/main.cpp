@@ -25,47 +25,25 @@ void write_result(arma::mat res){
   file.close();
 }
 
-/**                                                                             
- osef domi
- *Function to write value of Hermite polynomials for each degree n in a new file "hermite.dat"                         
- *@param her Hermite polynomial to write in the file                                                                             
- *@param z Vector z which discretises the solution                                                                     
+/**                                                
+ *Function to write a wave function psi in a new file "psi.dat"           
+ *@param psi Wave function to write in the file               
  */
 
-void write_hermit(Poly pol,arma::colvec z){
+void write_psi(arma::mat psi){
   ofstream file;
-  file.open("hermite.dat",ios::out);
-  arma::mat plot=pol.her.t();
-  plot.insert_cols(0,z);
+  file.open("psi.dat",ios::out);
+  arma::mat plot=psi;
   file<<plot;
   file.close();
-
-}
-
-/**
- * osef domi
- */
-
-void write_laguerre(Poly pol,arma::colvec z,int s){
-  ofstream file;
-  file.open("laguerre.dat",ios::out);
-  arma::mat plot=(pol.guerre.slice(s)).t();
-  plot.insert_cols(0,z);
-  file<<plot;
-  file.close();
-
 }
 
 
 
+
 /**
- * The main objective of this application is to compute the local density of a nuclear system in 2 or 3 dimensions
- *For this, we solve the Schrödinger equation given by:
- *\f$ \hat{H}_{(z)} \Psi_n(z) =E_n \Psi_n (z) \f$
- * where the 1D-Hamiltonian and 1D-Momentum operator are defined as:
- *  \f$ \hat{H}_{(z)} \equiv \frac{\hat{p}^2_{(z)}}{2m}+\frac{1}{2}mw^2\hat{z}^2 \f$
- * and 
- *  \f$ \hat{p}_{(z)} \equiv -i\hbar\frac{\partial}{\partial z} \f$
+ * The main objective of this application is to compute the local density \f$ rho \f$ of a nuclear system in 2 or 3 dimensions:
+ *
  */
 int main(int argc,char **argv){
 
@@ -74,15 +52,23 @@ int main(int argc,char **argv){
     exit(1);
   }
   
+  //initialisation of vectors
   int s_r=atoi(argv[1]);
   int s_z=atoi(argv[2]);
-  arma::colvec r=arma::linspace<arma::colvec>(-1,1,s_z);
-  arma::colvec z=arma::linspace<arma::colvec>(-1,1,s_r);
+  arma::colvec r=arma::linspace<arma::colvec>(-10,10,s_z);
+  arma::colvec z=arma::linspace<arma::colvec>(-10,10,s_r);
 
+  //initialisation of the basis
   Basis basis(1.935801664793151,      2.829683956491218,     14,     1.3);
+
+  //compute and writing of the result
   arma::mat res=solution3(z,r,s_z,s_r,basis);
   write_result(res);
-  
+
+  /*arma::mat psi;
+  psi=basis.basisFunc(basis.mMax/2,basis.nMax(basis.mMax/2),basis.n_zMax(basis.mMax/2,basis.mMax/2),z,r);          
+  write_psi(psi);
+  */
   return 0;
 }
 
