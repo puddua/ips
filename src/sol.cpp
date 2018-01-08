@@ -26,7 +26,6 @@ arma::mat solutionref(arma::vec zVals,arma::vec rVals,int nbZ,int nbR,Basis basi
     for (int n = 0; n < basis.nMax(m); n++){
       for (int n_z = 0; n_z < basis.n_zMax(m, n); n_z++){
 	j=0;
-
 	for (int mp = 0; mp < basis.mMax; mp++){
 	  for (int np = 0; np < basis.nMax(mp); np++){
 	    for (int n_zp = 0; n_zp < basis.n_zMax(mp, np); n_zp++){
@@ -42,9 +41,10 @@ arma::mat solutionref(arma::vec zVals,arma::vec rVals,int nbZ,int nbR,Basis basi
       }
     }
   }
+  
   t2=clock();
   tf=(double)(t2-t1)/CLOCKS_PER_SEC;
-  std::cout<<"temps d'execution = "<<tf<<std::endl;
+  std::cout<<"run time = "<<tf<<std::endl;
   return result;
 }
 
@@ -68,6 +68,7 @@ arma::mat solution1(arma::vec zVals,arma::vec rVals,int nbZ,int nbR,Basis basis)
   arma::mat result = arma::zeros(nbR, nbZ); // number of points on r- and z- axes
   double t1,t2,tf;
   t1=clock();
+ 
   for (int m = 0; m < basis.mMax; m++){
     for (int n = 0; n < basis.nMax(m); n++){
       for (int n_z = 0; n_z < basis.n_zMax(m, n); n_z++){
@@ -76,9 +77,8 @@ arma::mat solution1(arma::vec zVals,arma::vec rVals,int nbZ,int nbR,Basis basis)
 	for (int mp = 0; mp < basis.mMax; mp++){
 	  for (int np = 0; np < basis.nMax(mp); np++){
 	    for (int n_zp = 0; n_zp < basis.n_zMax(mp, np); n_zp++){
-	      //              arma::mat funcA = basisFunc( m,  n,  n_z, zVals, rVals);
 	      arma::mat funcB = basis.basisFunc(mp, np, n_zp, zVals, rVals);
-	      result+= funcA % funcB * rho(i,j); // mat += mat % mat * double
+	      result+= funcA % funcB * rho(i,j); 
 	      j++;
 	    }
 	  }
@@ -87,9 +87,10 @@ arma::mat solution1(arma::vec zVals,arma::vec rVals,int nbZ,int nbR,Basis basis)
       }
     }
   }
+ 
   t2=clock();
   tf=(double)(t2-t1)/CLOCKS_PER_SEC;
-  std::cout<<"temps d'execution = "<<tf<<std::endl;
+  std::cout<<"run time = "<<tf<<std::endl;
   return result;
 }
 
@@ -115,6 +116,7 @@ arma::mat solution2(arma::vec zVals,arma::vec rVals,int nbZ,int nbR,Basis basis)
   double t1,t2,tf;
   t1=clock();
   arma::mat tmpr,tmprp;
+ 
   for (int m = 0; m < basis.mMax; m++){
     for (int n = 0; n < basis.nMax(m); n++){
       tmpr=basis.rPart(rVals,m,n).t();
@@ -135,9 +137,10 @@ arma::mat solution2(arma::vec zVals,arma::vec rVals,int nbZ,int nbR,Basis basis)
       }
     }
   }
+ 
   t2=clock();
   tf=(double)(t2-t1)/CLOCKS_PER_SEC;
-  std::cout<<"temps d'execution = "<<tf<<std::endl;
+  std::cout<<"run time = "<<tf<<std::endl;
   return result;
 }
 
@@ -163,39 +166,40 @@ arma::mat solution3(arma::vec zVals,arma::vec rVals,int nbZ,int nbR,Basis basis)
   double t1,t2,tf;
   t1=clock();
   arma::cube conv=arma::zeros(basis.mMax,basis.nMax(0),basis.n_zMax(0,0));
-  for (int m = 0; m < basis.mMax; m++)
-    for (int n = 0; n < basis.nMax(m); n++)
-      for (int n_z = 0; n_z < basis.n_zMax(m, n); n_z++)
-	{
+  for (int m = 0; m < basis.mMax; m++){
+    for (int n = 0; n < basis.nMax(m); n++){
+      for (int n_z = 0; n_z < basis.n_zMax(m, n); n_z++){
 	  conv(m,n,n_z)=k;
 	  k++;
-	}
+      }
+    }
+  }
   arma::mat tmpr,tmprp;
-  k=0;
+ 
   for (int m = 0; m < basis.mMax; m++){
     for (int n = 0; n < basis.nMax(m); n++){
       tmpr=basis.rPart(rVals,m,n).t();
       for (int n_z = 0; n_z < basis.n_zMax(m, n); n_z++){
+	
 	arma::mat funcA = basis.zPart(zVals,n_z)*tmpr;
 	for (int np = 0; np < basis.nMax(m); np++){
 	  tmprp=basis.rPart(rVals,m,np).t();
 	  for (int n_zp = 0; n_zp < basis.n_zMax(m, np); n_zp++){
+
 	    arma::mat funcB = basis.zPart(zVals,n_zp)*tmprp;
 	    j=conv(m,np,n_zp);
-	    k++;
-	    result+= funcA % funcB * rho(i,j); // mat += mat % mat * double
-	    
+	    result+= funcA % funcB * rho(i,j); 
 	  }
 	}
 	i++;
       }
     }
   }
-  std::cout<<k<<std::endl;
+ 
   
   t2=clock();
   tf=(double)(t2-t1)/CLOCKS_PER_SEC;
-  std::cout<<"temps d'execution = "<<tf<<std::endl;
+  std::cout<<"run time = "<<tf<<std::endl;
   return result;
 }
 
@@ -218,14 +222,14 @@ arma::mat solution4(arma::vec zVals,arma::vec rVals,int nbZ,int nbR,Basis basis)
   double t1,t2,tf;
   t1=clock();
   arma::cube conv=arma::zeros(basis.mMax,basis.nMax(0),basis.n_zMax(0,0));
-  for (int m = 0; m < basis.mMax; m++)
-    for (int n = 0; n < basis.nMax(m); n++)
-      for (int n_z = 0; n_z < basis.n_zMax(m, n); n_z++)
-	{
+  for (int m = 0; m < basis.mMax; m++){
+    for (int n = 0; n < basis.nMax(m); n++){
+      for (int n_z = 0; n_z < basis.n_zMax(m, n); n_z++){
 	  conv(m,n,n_z)=k;
 	  k++;
-	}
-  k=0;
+      }
+    }
+  }
   arma::mat tmpr,tmprp;
   for (int m = 0; m < basis.mMax; m++){
     for (int n = 0; n < basis.nMax(m); n++){
@@ -233,28 +237,25 @@ arma::mat solution4(arma::vec zVals,arma::vec rVals,int nbZ,int nbR,Basis basis)
       for (int n_z = 0; n_z < basis.n_zMax(m, n); n_z++){
 	arma::mat funcA = basis.zPart(zVals,n_z)*tmpr;
 	
-	for (int np = 0; np < basis.nMax(m); np++){
+	for (int np = n; np < basis.nMax(m); np++){
 	  tmprp=basis.rPart(rVals,m,np).t();
-	  for (int n_zp = 0; n_zp < basis.n_zMax(m, np); n_zp++){
+	  for (int n_zp = n_z; n_zp < basis.n_zMax(m, np); n_zp++){
 	    j=conv(m,np,n_zp);
-	    k++;
-	    //std::cout<<"i="<<i<<" j="<<j<<std::endl;
 	    arma::mat funcB = basis.zPart(zVals,n_zp)*tmprp;
-	    result+= funcA % funcB * rho(j,i); // mat += mat % mat * double
+	    result+= funcA % funcB * rho(j,i);
 	    if(i!=j){
 	      result+= funcA % funcB *rho(i,j);
-	      k++;
 	    }
 	  }
 	}
-      
-	i++;
+      	i++;
       }
     }
   }
+  
   std::cout<<k<<std::endl;
   t2=clock();
   tf=(double)(t2-t1)/CLOCKS_PER_SEC;
-  std::cout<<"temps d'execution = "<<tf<<std::endl;
+  std::cout<<"run time = "<<tf<<std::endl;
   return result;
 }

@@ -2,7 +2,7 @@
 #define BASIS_H
 
 /**
- * file basis.h
+ *@file basis.h
  */
 
 #include "poly.h"
@@ -10,15 +10,26 @@
 #include <cmath>
 #include <time.h>
 #include <iostream>
+
+/**
+ *Class to compute the truncation of the basis, which define domain of definition of the result 
+ */
+
+
 class Basis{
  public:
+  /**
+   *Quantic numbers
+   */
   int mMax;
+  arma::ivec nMax;
+  arma::imat n_zMax;
+  /**
+   *Parameters to define the truncation
+   */
   double br;
   double bz;
-  arma::ivec nMax;
-
-  arma::imat n_zMax;
-
+  
   Basis(double,double,int,double);
   arma::vec rPart(arma::vec,int,int);
   arma::vec zPart(arma::vec,int);
