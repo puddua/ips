@@ -25,7 +25,7 @@ Local density in a Nuclear System
 
 <br/><br/>
 .subtitle[
-Alexis PUDDU & Domitille AILLERE
+Alexis PUDDU & Domitille AILLERET
 ]
 
 .footnote[
@@ -182,6 +182,7 @@ $$`
 ![](images/psi.png)
 ]
 
+.hcenter[wave functions ]
 
 
 ---
@@ -209,7 +210,7 @@ $$`
 `                                         `
 
 .block.hcenter[
-implemented in the basis class
+implemented in the Basis class
 ]
 
 
@@ -242,16 +243,6 @@ $$`
 ![](images/res1.png)
 ]
 
----
-# Table of results 
-
-.hcenter[
-| `      `                |`   solref   `|`    sol1    `|`    sol2   ` |`    sol3   ` | `   sol4   ` | 
-|:------------------------|:------------:|:------------:|:------------:|:------------:|:------------:|
-| time                    |     53.9     |    36.21     |     29.3     |     3.39     |     1.53     |
-| speed-up                |              |     1.48     |     1.23     |     8.64     |     2.22     |
-| global speed-up         |              |              |     1.84     |     15.9     |     35.23    |
-]
 
 ---
 
@@ -267,6 +258,52 @@ $$`
 ![](images/res2.png)
 ]
 
+
+---
+# Table of results 
+
+.hcenter[
+| `      `                |`   solref   `|`    sol1    `|`    sol2   ` |`    sol3   ` | `   sol4   ` | 
+|:------------------------|:------------:|:------------:|:------------:|:------------:|:------------:|
+| time                    |     53.9     |    36.21     |     29.3     |     3.39     |     1.53     |
+| speed-up                |              |     1.48     |     1.23     |     8.64     |     2.22     |
+| global speed-up         |              |              |     1.84     |     15.9     |     35.23    |
+]
+
+
+`                                         `
+`                                         `
+
+
+.block.hcenter[
+   sol4 is false   
+]
+
+---
+
+# Best Optimization
+
+<pre id="terminal">
+for (int m = 0; m < basis.mMax; m++){
+    for (int n = 0; n < basis.nMax(m); n++){
+      tmpr=basis.rPart(rVals,m,n).t();
+      for (int n_z = 0; n_z < basis.n_zMax(m, n); n_z++){
+	
+	arma::mat funcA = basis.zPart(zVals,n_z)*tmpr;
+	for (int np = 0; np < basis.nMax(m); np++){
+	  tmprp=basis.rPart(rVals,m,np).t();
+	  for (int n_zp = 0; n_zp < basis.n_zMax(m, np); n_zp++){
+
+	    arma::mat funcB = basis.zPart(zVals,n_zp)*tmprp;
+	    j=conv(m,np,n_zp);
+	    result+= funcA % funcB * rho(i,j); 
+	  }
+	}
+	i++;
+      }
+}
+</pre>
+
 ---
 # Results 
  
@@ -275,8 +312,9 @@ $$`
 ![](images/res3.png)
 ]
 
----
+.hcenter[true representation ------------------------------- false representation]
 
+---
 # Unitary Test
 
 * Check integrity of the result  
