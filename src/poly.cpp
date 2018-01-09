@@ -1,13 +1,24 @@
+/**
+ *@file poly.cpp
+ */
 #include "poly.h"
 
-
+/**
+ * Constructor of the class Poly
+ */
 Poly::Poly(){
   
 }
 
 
+/**
+ * Function to evaluate Hermitian polynom on a vector
+ *@param n Degre of the polynom
+ *@param z Vector to compute the polynom 
+ */
+
 void Poly::calcHermite(int n,arma::vec z){
-  int size_z=z.n_elem;//arma::as_scalar(arma::size(z));
+  int size_z=z.n_elem;
   her=arma::zeros(n,size_z);
   arma::rowvec zz=z.t();
   her.row(0)=arma::ones(size_z).t();
@@ -19,10 +30,22 @@ void Poly::calcHermite(int n,arma::vec z){
   }
 }
 
-
+/**
+ *Return a row of the Hermitian polynomial
+ *@param n Index of the row to return
+ *@return Row of the Hermitian polynomials
+ */
 arma::vec Poly::hermite(int n){
   return her.row(n).t();
 }
+
+/**                                                                             
+ * Function to evaluate Laguerre polynomials on a vector                           
+ *@param n Degre of the polynom 
+ *@param m 
+ *@param z Vector to compute the polynom                                        
+
+*/
 
 void Poly::calcLaguerre(int m,int n,arma::vec z){
   int size_z=z.n_elem;
@@ -41,6 +64,14 @@ void Poly::calcLaguerre(int m,int n,arma::vec z){
   }
 
 }
+
+/**                                                                                            
+ *Return a row of the Laguerre polynomial
+ *@param m Index of the column                                                                
+ *@param n Index of the slice                                                         
+ *@return Row of the Hermitian polynomials                                                                        
+ */
+
 
 arma::vec Poly::laguerre(int m,int n){
   return guerre.slice(n).col(m);
