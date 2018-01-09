@@ -83,7 +83,6 @@ long fact(long n) {
 
 arma::vec Basis::rPart(arma::vec r,int m,int n ){
   Poly pol;
-  int i;
 	 
   pol.calcLaguerre(m+2,n+2,arma::pow(r,2)/pow(br,2));
   arma::vec res=arma::vec(arma::size(r));

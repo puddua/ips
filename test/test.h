@@ -135,7 +135,7 @@ public:
     arma::colvec z=arma::linspace<arma::colvec>(-1,1,s_r);
 
     Basis basis(1.935801664793151,      2.829683956491218,     14,     1.3);
-    arma::mat res=solutionref(z,r,s_z,s_r,basis);
+    arma::mat res=solution3(z,r,s_z,s_r,basis);
     double the=3.6742;
     TS_ASSERT_DELTA(arma::accu(res)-the,0.0,1e-4);
     

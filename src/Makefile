@@ -4,7 +4,7 @@ LIB = -larmadillo -lm
 TARGET = main
 OBJS =  poly.o basis.o sol.o main.o
 CCPLOT = gnuplot
-PLOT = plot_res.gnu 
+PLOT = plot_res.gnu #plot_psi.gnu
 
 
 all: $(TARGET)

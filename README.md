@@ -31,11 +31,12 @@ The makefile at the root have a target doc, so you can type "make doc" to genera
 In the folder src, you can execute the executable file "main" with 2 parameters:<br/>
    1) s_z=size of the vector Z <br/>
    2) s_r=size of the vector R <br/>
-It will generate 1 new file "result.dat" which contains value of the result, in a format to plot with gnuplot
-
+It will generate 1 new file "result.dat" which contains value of the result, in a format to plot with gnuplot <br/>
+It's possible to generate another file "psi.dat" with the last commented lines in src/main.cpp to write a wave function psi with parameters of your choice <br/>
 
 # Plot <a name="Plot"></a>
-In the folders src, you can type "make plot" to generate "reslut.png" which represents solution associated to your last run. <br/>
+In the folders src, you can type "make plot" to generate "result.png" which represents solution associated to your last run. <br/>
+It's also possible to plot a wave function "psi.png" with the file "plot_psi.gnu" that you can add in the Makefile <br/>
 
 # Test <a name="Test"></a>
 The executable to run test is in the folder test, and you just need to type "./test" to launch existing tests
